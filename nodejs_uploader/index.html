@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>File Upload</title>
+</head>
+<body>
+  <!-- The form for file uploads -->
+  <form>
+    <input type="file" name="files" multiple>
+    <input type="submit" value="Upload Files">
+  </form>
+
+  <!-- Progress Bar -->
+  <div id="progress-bar-container" style="width: 100%; background: #ddd; margin-top: 10px;">
+    <div id="progress-bar" style="width: 0%; height: 20px; background: #4CAF50;"></div>
+  </div>
+
+  <!-- The script for handling the file upload and updating the progress bar -->
+  <script>
+    document.querySelector('form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const files = document.querySelector('input[type=file]').files;
+      const formData = new FormData();
+
+      for (let i = 0; i < files.length; i++) {
+        formData.append('files', files[i]);
+      }
+
+      const request = new XMLHttpRequest();
+      request.open('POST', '/upload');
+
+      // Upload progress on request.upload
+      request.upload.addEventListener('progress', function(e) {
+        if (e.lengthComputable) {
+          var percentCompleted = (e.loaded / e.total) * 100;
+          document.getElementById('progress-bar').style.width = percentCompleted + '%';
+        }
+      });
+
+      request.addEventListener('load', function(e) {
+        // Upload completed
+        if (request.status == 200) {
+          alert('Upload complete. Files have been transferred successfully.');
+          document.getElementById('progress-bar').style.width = '0%'; // Reset progress bar
+          window.location.reload(); // Refresh the page
+        } else {
+          alert('Upload failed.');
+        }
+      });
+
+      request.send(formData);
+    });
+  </script>
+</body>
+</html>
