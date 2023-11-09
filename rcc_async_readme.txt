@@ -40,3 +40,52 @@ Start the Crawler:
 After taking user input, it calls startCrawling with the provided URL and depth, and then closes the readline interface once the crawling is complete.
 
 The program is designed to be a simple recursive crawler that can fetch and log the content of web pages, following links up to a specified depth. It also avoids revisiting pages by keeping track of visited URLs. The output is saved to a text file, and the console logs provide real-time feedback on the crawling process.
+
+To ADD:
+
+Log Start and End of Functions: Log when a function starts and when it ends, along with any important parameters or the result it returns.
+
+Log Error Details: When catching errors, log the full error stack, not just the message, to get more context about where and why the error occurred.
+
+Log Crawler Events: The Crawler library may emit events that can be logged to understand the crawler's state.
+
+Log Retry Attempts: Log when a retry is attempted, including which attempt number it is and how long it will wait before retrying.
+
+Log Rate Adjustments: When the rate adjustment logic triggers, log the new rate and the reason for the adjustment.
+
+Log HTTP Request and Response Details: Log details of the HTTP requests being made and the responses received.
+
+If the crawler is not functioning as expected, there could be several reasons for this behavior. Here are some potential issues and their corresponding fixes:
+
+Initial maxConnections Setting:
+The initial maxConnections setting might be too low, causing the crawler to make requests too slowly or not at all if there are immediate errors. Ensure that the initial maxConnections is set to a reasonable number that allows the crawler to start effectively.
+
+Error Handling in retryCrawl:
+The retryCrawl function is designed to catch errors and retry, but if it's not correctly handling the errors or the retries are not being queued properly, it could halt the crawling process. Ensure that the retry logic is correctly implemented and that the crawler queues the retries as expected.
+
+Rate Adjustment Logic:
+The hysteresis logic might be too aggressive in reducing the maxConnections. If the error threshold is reached quickly, it could reduce the maxConnections to the minimum, effectively stopping the crawler. You may need to adjust the errorThreshold and errorTimeWindow to more appropriate values.
+
+Incorrect Error Code Check:
+The code checks for an ECONNRESET error code to adjust the rate. If the errors are not of this type or if they are not being reported with this exact code, the hysteresis mechanism won't trigger. Verify that the error codes are being checked correctly.
+
+Callback Handling:
+The done callback needs to be called after each operation, regardless of success or failure, to signal to the crawler that it can proceed with the next task. Ensure that done is being called in all cases.
+
+URL Handling:
+If the URLs are not being correctly resolved or sanitized, the crawler might not be able to make the requests. Verify that the URL handling logic is correct and that the URLs being queued are valid.
+
+Crawler Configuration:
+The crawler's configuration options might not be set correctly, or some required options might be missing. Review the crawler's documentation to ensure all necessary configuration is in place.
+
+Resource Limitations:
+The environment in which the crawler is running might have limitations (like network issues, or restrictions on the number of concurrent connections) that prevent the crawler from operating correctly. Check the system and network resources.
+
+Target Website Restrictions:
+The target website might have restrictions in place (like requiring certain headers, cookies, or responding to a user-agent string) that prevent the crawler from accessing the content. Ensure that the crawler is configured to mimic a regular browser request as closely as possible.
+
+Async/Await Misuse:
+There might be a misuse of async/await, causing some promises not to resolve correctly, which can halt the crawling process. Ensure that all asynchronous operations are awaited properly.
+
+To diagnose the issue, you can add more detailed logging at various points in the code to see where it might be failing. Once you've identified the specific point of failure, you can apply the appropriate fix.
+
