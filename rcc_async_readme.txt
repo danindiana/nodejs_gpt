@@ -1,3 +1,63 @@
+To start a server on an Ubuntu-based system using the command line interface (CLI), you typically need to perform the following steps. Below is a summarized overview of the necessary CLI entries:
+
+Open a Terminal Window: You can open a terminal window by pressing Ctrl + Alt + T or searching for "Terminal" in the application launcher.
+
+Navigate to Your Project Directory (if necessary):
+
+Use the cd command to navigate to the directory where your server application is located. For example:
+bash
+Copy code
+cd /path/to/your/server/app
+Start a Node.js Server (for Node.js applications):
+
+If your server is a Node.js application, you can start it by running the appropriate Node.js command. For example, if your main server file is server.js:
+bash
+Copy code
+node server.js
+Alternatively, you can use a process manager like pm2 for production-ready Node.js applications:
+bash
+Copy code
+pm2 start server.js
+Start an Apache Server (for Apache web server):
+
+If you're using Apache, you can start it using the systemctl command. For example, to start Apache:
+bash
+Copy code
+sudo systemctl start apache2
+Start an Nginx Server (for Nginx web server):
+
+If you're using Nginx, you can start it using the systemctl command. For example, to start Nginx:
+bash
+Copy code
+sudo systemctl start nginx
+Start a PostgreSQL Server (for PostgreSQL database server):
+
+To start a PostgreSQL server, you can use the following command:
+bash
+Copy code
+sudo service postgresql start
+Start a MySQL Server (for MySQL database server):
+
+To start a MySQL server, you can use the following command:
+bash
+Copy code
+sudo service mysql start
+Start a MongoDB Server (for MongoDB database server):
+
+To start a MongoDB server, you can use the mongod command:
+bash
+Copy code
+mongod
+Start Other Servers (if applicable):
+
+Depending on the specific server or service you're running, you may have different commands to start them. Refer to the documentation for your server or service for the exact command.
+Check the Server Status (optional):
+
+After starting the server, you can check its status to ensure it's running without errors. Use commands like systemctl status (for services) or check your application's logs for Node.js servers.
+Access Your Server: Once the server is running, you can access it in a web browser or through other appropriate client applications by entering the server's IP address or domain name along with the relevant port and path.
+
+Remember to run server commands with the necessary permissions, especially when using sudo to start services. The specific commands may vary depending on your server or service configuration.
+
 The program you've provided is a simple web crawler built in Node.js using the crawler library. Here's a step-by-step explanation of how it works:
 
 Import Required Modules:
